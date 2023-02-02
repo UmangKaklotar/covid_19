@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
               future: getCountryResponse(),
               builder: (context, snapshot) {
                 if(snapshot.hasData) {
-                  List<AllCountry> country = snapshot.data;
+                  List<Cs> country = snapshot.data;
                   return CustomDropdown.search(
                     hintText: 'Select Country',
                     hintStyle: GoogleFonts.poppins(),
