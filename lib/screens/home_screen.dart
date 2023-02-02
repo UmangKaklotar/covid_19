@@ -60,10 +60,30 @@ class _HomeScreenState extends State<HomeScreen> {
                   if(snapshot.hasData) {
                     List<AllState> state = snapshot.data!;
                     return ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      padding: const EdgeInsets.symmetric(vertical: 20),
                       itemCount: state.length,
                       itemBuilder: (context, index) {
-                        return ListTile(
-                           title: Text("${state[index].province}"),
+                        return Container(
+                          margin: const EdgeInsets.symmetric(vertical: 5),
+                          decoration: BoxDecoration(
+                            color: CovidColor.white,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: ExpansionTile(
+                            tilePadding: const EdgeInsets.symmetric(horizontal: 15),
+                            title: Text("${state[index].province}".substring(9), style: GoogleFonts.poppins(color: CovidColor.black),),
+                            subtitle: Text("${state[index].date}".substring(0,10), style: GoogleFonts.poppins(color: CovidColor.grey),),
+                            expandedAlignment: Alignment.centerLeft,
+                            childrenPadding: const EdgeInsets.all(10),
+                            expandedCrossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Total Cases : ${state[index].confirmed}"),
+                              Text("Active Case : ${state[index].active}"),
+                              Text("Recovered : ${state[index].recovered}"),
+                              Text("Deaths : ${state[index].deaths}"),
+                            ],
+                          ),
                         );
                       },
                     );
