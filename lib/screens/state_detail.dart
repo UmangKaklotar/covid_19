@@ -1,24 +1,28 @@
-import 'package:covid_19/model/covid_model.dart';
-import 'package:covid_19/utils/api_string.dart';
-import 'package:covid_19/utils/colors.dart';
+import 'package:covid_19/function/state_response.dart';
+import 'package:covid_19/model/state_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../function/country_response.dart';
+import '../utils/api_string.dart';
+import '../utils/colors.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class StateDetail extends StatefulWidget {
+  const StateDetail({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<StateDetail> createState() => _StateDetailState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _StateDetailState extends State<StateDetail> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: GestureDetector(
+          onTap: () => Navigator.pop(context),
+          child: Icon(CupertinoIcons.back, color: CovidColor.black,),
+        ),
         title: Text("Covid - 19", style: TextStyle(fontSize: 20, color: CovidColor.black),),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -33,20 +37,20 @@ class _HomeScreenState extends State<HomeScreen> {
               style: GoogleFonts.poppins(),
               onChanged: (val){
                 setState(() {
-                  ApiUtils.searchCountry.value = val;
+                  ApiUtils.searchState.value = val;
                 });
               },
             ),
             Expanded(
               child: FutureBuilder(
-                future: getCountryResponse(),
+                future: getStateResponse(),
                 builder: (context, snapshot) {
                   if(snapshot.hasData) {
-                    List<AllCountry> country = snapshot.data;
+                    List<AllState> state = snapshot.data;
                     return ListView.builder(
                       physics: const BouncingScrollPhysics(),
                       padding: const EdgeInsets.symmetric(vertical: 20),
-                      itemCount: country.length,
+                      itemCount: state.length,
                       itemBuilder: (context, index) {
                         var widget = ClipRRect(
                           borderRadius: BorderRadius.circular(20),
@@ -57,38 +61,23 @@ class _HomeScreenState extends State<HomeScreen> {
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: ExpansionTile(
-                              leading: SizedBox(width: 50,child: Image.network("${country[index].countryInfo!.flag}",)),
                               tilePadding: const EdgeInsets.symmetric(horizontal: 15),
-                              title: Text("${country[index].country}", style: GoogleFonts.poppins(color: CovidColor.black),),
+                              title: Text("${state[index].province}".substring(9), style: GoogleFonts.poppins(color: CovidColor.black),),
+                              subtitle: Text("${state[index].date}".substring(0,10), style: GoogleFonts.poppins(color: CovidColor.grey),),
                               expandedAlignment: Alignment.centerLeft,
                               childrenPadding: const EdgeInsets.all(10),
                               expandedCrossAxisAlignment: CrossAxisAlignment.start,
-                              trailing: GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    ApiUtils.country = country[index].country.toString();
-                                    Navigator.pushNamed(context, 'state');
-                                  });
-                                },
-                                child: Icon(CupertinoIcons.info, color: CovidColor.black,),
-                              ),
                               children: [
-                                Text("Total Cases : ${country[index].cases}"),
-                                Text("Today Cases : ${country[index].todayCases}"),
-                                Text("Active Cases : ${country[index].active}"),
-                                Text("Critical Cases : ${country[index].critical}"),
-                                Text("Total Deaths : ${country[index].deaths}"),
-                                Text("Today Deaths : ${country[index].todayDeaths}"),
-                                Text("Total Recovered : ${country[index].recovered}"),
-                                Text("Today Recovered : ${country[index].todayRecovered}"),
-                                Text("Tests : ${country[index].tests}"),
-                                Text("Continent : ${country[index].continent}"),
+                                Text("Total Cases : ${state[index].confirmed}"),
+                                Text("Active Case : ${state[index].active}"),
+                                Text("Recovered : ${state[index].recovered}"),
+                                Text("Deaths : ${state[index].deaths}"),
                               ],
                             ),
                           ),
                         );
-                        if(ApiUtils.searchCountry.value != '') {
-                          if(country[index].country!.toUpperCase().contains(ApiUtils.searchCountry.value.toUpperCase())) {
+                        if(ApiUtils.searchState.value != '') {
+                          if(state[index].province.toString().toUpperCase().contains(ApiUtils.searchState.value.toUpperCase())) {
                             return widget;
                           }
                         } else {

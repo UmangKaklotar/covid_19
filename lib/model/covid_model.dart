@@ -1,15 +1,15 @@
 // To parse this JSON data, do
 //
-//     final covid = covidFromJson(jsonString);
+//     final allCountry = allCountryFromJson(jsonString);
 
 import 'dart:convert';
 
-List<Covid> covidFromJson(String str) => List<Covid>.from(json.decode(str).map((x) => Covid.fromJson(x)));
+List<AllCountry> allCountryFromJson(String str) => List<AllCountry>.from(json.decode(str).map((x) => AllCountry.fromJson(x)));
 
-String covidToJson(List<Covid> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String allCountryToJson(List<AllCountry> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Covid {
-  Covid({
+class AllCountry {
+  AllCountry({
     this.updated,
     this.country,
     this.countryInfo,
@@ -59,7 +59,7 @@ class Covid {
   double? recoveredPerOneMillion;
   double? criticalPerOneMillion;
 
-  factory Covid.fromJson(Map<String, dynamic> json) => Covid(
+  factory AllCountry.fromJson(Map<String, dynamic> json) => AllCountry(
     updated: json["updated"],
     country: json["country"],
     countryInfo: json["countryInfo"] == null ? null : CountryInfo.fromJson(json["countryInfo"]),

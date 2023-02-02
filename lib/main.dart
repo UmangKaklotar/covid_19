@@ -1,4 +1,5 @@
 import 'package:covid_19/screens/home_screen.dart';
+import 'package:covid_19/screens/state_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -15,7 +16,10 @@ void main() {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: const HomeScreen(),
+      routes: {
+        '/': (context) => const HomeScreen(),
+        'state': (context) => const StateDetail(),
+      },
     ),
   );
 }
