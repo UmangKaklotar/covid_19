@@ -38,6 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return CustomDropdown.search(
                     hintText: 'Select Country',
                     hintStyle: GoogleFonts.poppins(),
+                    selectedStyle: GoogleFonts.poppins(),
                     items: country.map((e) => e.country.toString()).toList(),
                     controller: CovidController.textEditingController,
                     onChanged: (val) {
