@@ -1,4 +1,4 @@
-import 'package:covid_19/model/covid_model.dart';
+import 'package:covid_19/model/country_model.dart';
 import 'package:covid_19/utils/api_string.dart';
 import 'package:covid_19/utils/colors.dart';
 import 'package:flutter/cupertino.dart';

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 
-import '../model/covid_model.dart';
+import '../model/country_model.dart';
 import '../utils/api_string.dart';
 
 Future getCountryResponse() async {
