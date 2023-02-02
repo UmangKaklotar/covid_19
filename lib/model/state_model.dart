@@ -1,15 +1,15 @@
 // To parse this JSON data, do
 //
-//     final state = stateFromJson(jsonString);
+//     final allState = allStateFromJson(jsonString);
 
 import 'dart:convert';
 
-List<State> stateFromJson(String str) => List<State>.from(json.decode(str).map((x) => State.fromJson(x)));
+List<AllState> allStateFromJson(String str) => List<AllState>.from(json.decode(str).map((x) => AllState.fromJson(x)));
 
-String stateToJson(List<State> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String allStateToJson(List<AllState> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class State {
-  State({
+class AllState {
+  AllState({
     this.id,
     this.country,
     this.countryCode,
@@ -39,7 +39,7 @@ class State {
   int? active;
   DateTime? date;
 
-  factory State.fromJson(Map<String, dynamic> json) => State(
+  factory AllState.fromJson(Map<String, dynamic> json) => AllState(
     id: json["ID"],
     country: countryValues.map[json["Country"]]!,
     countryCode: countryCodeValues.map[json["CountryCode"]]!,

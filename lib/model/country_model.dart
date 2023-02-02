@@ -1,15 +1,15 @@
 // To parse this JSON data, do
 //
-//     final country = countryFromJson(jsonString);
+//     final allCountry = allCountryFromJson(jsonString);
 
 import 'dart:convert';
 
-List<Country> countryFromJson(String str) => List<Country>.from(json.decode(str).map((x) => Country.fromJson(x)));
+List<AllCountry> allCountryFromJson(String str) => List<AllCountry>.from(json.decode(str).map((x) => AllCountry.fromJson(x)));
 
-String countryToJson(List<Country> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+String allCountryToJson(List<AllCountry> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class Country {
-  Country({
+class AllCountry {
+  AllCountry({
     this.country,
     this.slug,
     this.iso2,
@@ -19,7 +19,7 @@ class Country {
   String? slug;
   String? iso2;
 
-  factory Country.fromJson(Map<String, dynamic> json) => Country(
+  factory AllCountry.fromJson(Map<String, dynamic> json) => AllCountry(
     country: json["Country"],
     slug: json["Slug"],
     iso2: json["ISO2"],

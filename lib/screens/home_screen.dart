@@ -1,6 +1,7 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:covid_19/function/state_response.dart';
 import 'package:covid_19/model/country_model.dart';
+import 'package:covid_19/model/state_model.dart';
 import 'package:covid_19/utils/api_string.dart';
 import 'package:covid_19/utils/controller.dart';
 import 'package:flutter/material.dart';
@@ -18,12 +19,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getStateResponse();
-  }
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -35,28 +30,26 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-            Expanded(
-              child: FutureBuilder(
-                future: getCountryResponse(),
-                builder: (context, snapshot) {
-                  if(snapshot.hasData) {
-                    List<Country> country = snapshot.data;
-                    return CustomDropdown.search(
-                      hintText: 'Select Country',
-                      hintStyle: GoogleFonts.poppins(),
-                      items: country.map((e) => e.country.toString()).toList(),
-                      controller: CovidController.textEditingController,
-                      onChanged: (val) {
-                        setState(() {
-                          ApiUtils.status = val;
-                        });
-                      },
-                    );
-                  } else {
-                    return const Center(child: CircularProgressIndicator(),);
-                  }
+            FutureBuilder(
+              future: getCountryResponse(),
+              builder: (context, snapshot) {
+                if(snapshot.hasData) {
+                  List<AllCountry> country = snapshot.data;
+                  return CustomDropdown.search(
+                    hintText: 'Select Country',
+                    hintStyle: GoogleFonts.poppins(),
+                    items: country.map((e) => e.country.toString()).toList(),
+                    controller: CovidController.textEditingController,
+                    onChanged: (val) {
+                      setState(() {
+                        ApiUtils.country = val;
+                      });
+                    },
+                  );
+                } else {
+                  return const Center(child: CircularProgressIndicator(),);
                 }
-              ),
+              }
             ),
             (ApiUtils.country.isNotEmpty)
               ? Expanded(
@@ -64,12 +57,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 future: getStateResponse(),
                 builder: (context, snapshot) {
                   if(snapshot.hasData) {
-                    List<State> state = snapshot.data;
+                    List<AllState> state = snapshot.data!;
                     return ListView.builder(
                       itemCount: state.length,
                       itemBuilder: (context, index) {
                         return ListTile(
-                          // title: Text(state[index].),
+                           title: Text("${state[index].province}"),
                         );
                       },
                     );
